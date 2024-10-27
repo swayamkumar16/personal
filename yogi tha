@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Special Question</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --container-padding: clamp(1rem, 5vw, 3rem);
+            --title-size: clamp(1.5rem, 4vw, 2.5rem);
+            --button-size: clamp(1rem, 3vw, 1.4rem);
+            --heart-size: clamp(1rem, 3vw, 1.5rem);
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ffe6f0, #fff0f5, #fff5fa);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+            touch-action: none;
+            padding: 1rem;
+        }
+
+        html {
+            height: -webkit-fill-available;
+        }
+
+        body::before,
+        body::after {
+            content: '🌸';
+            position: fixed;
+            font-size: var(--heart-size);
+            animation: floating 3s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        body::before {
+            top: 20px;
+            left: 20px;
+        }
+
+        body::after {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: var(--container-padding);
+            border-radius: 25px;
+            box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
+            width: min(90%, 600px);
+            position: relative;
+            animation: floating 6s ease-in-out infinite;
+            border: 2px solid #ffd1dc;
+            z-index: 2;
+        }
+
+        h1 {
+            color: #ff69b4;
+            margin-bottom: clamp(1rem, 4vw, 2rem);
+            font-size: var(--title-size);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: inline-block;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .emoji-decorations {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: var(--heart-size);
+            animation: heartbeat 2s infinite;
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .emoji-decorations {
+                display: block;
+            }
+            
+            .emoji-left {
+                left: -40px;
+            }
+            
+            .emoji-right {
+                right: -40px;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: clamp(1rem, 3vw, 2rem);
+            justify-content: center;
+            margin-top: clamp(1rem, 4vw, 2rem);
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 4vw, 3rem);
+            font-size: var(--button-size);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            min-width: clamp(100px, 30vw, 150px);
+            touch-action: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #yesBtn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        #noBtn {
+            background: linear-gradient(45deg, #ffb6c1, #ffc0cb);
+            color: #ff1493;
+            transition: all 0.2s ease;
+        }
+
+        .success-message {
+            display: none;
+            margin-top: clamp(1rem, 4vw, 2rem);
+            color: #ff1493;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: var(--heart-size);
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        @media (max-height: 600px) {
+            .container {
+                padding: clamp(0.5rem, 3vw, 1.5rem);
+            }
+            
+            .hearts {
+                display: none;
+            }
+            
+            body::before,
+            body::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts"></div>
+    <div class="container">
+        <h1>
+            <span class="emoji-decorations emoji-left">💝</span>
+            Yogita Mujhe Date pr lejaogi? 🌹
+            <span class="emoji-decorations emoji-right">💝</span>
+        </h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes 💝</button>
+            <button id="noBtn">No 💔</button>
+        </div>
+        <div id="successMessage" class="success-message">
+            <p>Thank you! 💖</p>
+            <p>Please DM Swayam! 💌</p>
+        </div>
+    </div>
+
+    <script>
+        function createHearts() {
+            const heartsContainer = document.querySelector('.hearts');
+            const hearts = ['💝', '💖', '💗', '💓', '💕'];
+            const numberOfHearts = window.innerWidth < 768 ? 10 : 20;
+            
+            heartsContainer.innerHTML = '';
+            
+            for(let i = 0; i < numberOfHearts; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        function moveButton(event) {
+            event.preventDefault();
+            const button = event.target;
+            const buttonRect = button.getBoundingClientRect();
+            const maxX = window.innerWidth - buttonRect.width;
+            const maxY = window.innerHeight - buttonRect.height;
+            
+            let newX, newY;
+            const padding = 20;
+            
+            do {
+                newX = Math.random() * (maxX - 2 * padding) + padding;
+                newY = Math.random() * (maxY - 2 * padding) + padding;
+            } while (
+                Math.abs(newX - buttonRect.left) < 100 &&
+                Math.abs(newY - buttonRect.top) < 100
+            );
+            
+            button.style.position = 'fixed';
+            button.style.left = `${newX}px`;
+            button.style.top = `${newY}px`;
+            button.style.zIndex = '1000';
+        }
+
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        // Event listeners for No button
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('click', moveButton);
+        noBtn.addEventListener('touchstart', moveButton, { passive: false });
+        noBtn.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+        // Yes button click handler
+        yesBtn.addEventListener('click', () => {
+            noBtn.style.display = 'none';
+            yesBtn.style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            const duration = 15 * 1000;
+            const animationEnd = Date.now() + duration;
+            const isMobile = window.innerWidth < 768;
+            
+            (function frame() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) return;
+
+                const particleCount = isMobile ? 2 : 3;
+                
+                confetti({
+                    particleCount,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff69b4', '#ffc0cb', '#ffb6c1', '#ff1493']
+                });
+                confetti({
+                    particleCount,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff69b4', '#ffc0cb', '#ffb6c1', '#ff1493']
+                });
+
+                requestAnimationFrame(frame);
+            }());
+        });
+
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                createHearts();
+                // Reset no button position if it was moved
+                if (noBtn.style.position === 'fixed') {
+                    noBtn.style.position = 'static';
+                }
+            }, 250);
+        });
+
+        // Initial hearts creation
+        createHearts();
+    </script>
+</body>
+</html>
