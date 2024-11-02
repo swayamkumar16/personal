@@ -1,173 +1,296 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
     <style>
-        body {
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --success: #059669;
+            --error: #DC2626;
+            --warning: #D97706;
+        }
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(120deg, #fce4ec, #f3e5f5);
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .pattern-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
             padding: 20px;
-            z-index: 0;
-            transform: rotate(-5deg);
-        }
-
-        .pattern-text {
-            color: rgba(216, 27, 96, 0.1);
-            font-weight: bold;
-            font-size: clamp(0.8rem, 2vw, 1.2rem);
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: float-pattern 3s ease-in-out infinite;
-            white-space: nowrap;
-        }
-
-        .pattern-text:nth-child(even) {
-            animation-delay: 1.5s;
-        }
-
-        .pattern-text:nth-child(3n) {
-            font-size: clamp(1rem, 2.5vw, 1.5rem);
-        }
-
-        .pattern-text:nth-child(4n) {
-            color: rgba(106, 27, 154, 0.1);
-        }
-
-        @keyframes float-pattern {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
         }
 
         .container {
-            text-align: center;
+            background: white;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            position: relative;
-            animation: float 3s ease-in-out infinite;
-            z-index: 1;
-            margin: 20px;
-            max-width: 90%;
-            width: 600px;
-            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            max-width: 500px;
+            width: 100%;
         }
 
-        h1 {
-            color: #d81b60;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 1.875rem;
+            color: #1F2937;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #4B5563;
+            font-size: 1rem;
+        }
+
+        .game-info {
+            background: #F3F4F6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .attempts {
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #374151;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        p {
-            color: #6a1b9a;
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            line-height: 1.6;
-            margin: 1rem 0;
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
         }
 
-        .emoji-flower {
-            position: absolute;
-            font-size: clamp(2rem, 4vw, 3rem);
-            animation: pulse 2s ease-in-out infinite;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #E5E7EB;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
         }
 
-        .top-left { 
-            top: 10px; 
-            left: 10px;
-            animation-delay: 0s;
-        }
-        .top-right { 
-            top: 10px; 
-            right: 10px;
-            animation-delay: 0.5s;
-        }
-        .bottom-left { 
-            bottom: 10px; 
-            left: 10px;
-            animation-delay: 1s;
-        }
-        .bottom-right { 
-            bottom: 10px; 
-            right: 10px;
-            animation-delay: 1.5s;
+        input:focus {
+            border-color: var(--primary);
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(1deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        button:hover {
+            background: var(--primary-hover);
         }
 
-        @media (max-width: 600px) {
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .message {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .message.success {
+            background: #ECFDF5;
+            color: var(--success);
+        }
+
+        .message.error {
+            background: #FEF2F2;
+            color: var(--error);
+        }
+
+        .message.hint {
+            background: #FEF3C7;
+            color: var(--warning);
+        }
+
+        .history {
+            margin-top: 1.5rem;
+        }
+
+        .history h3 {
+            color: #374151;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: #F9FAFB;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .temperature-hint {
+            font-weight: 500;
+        }
+
+        .play-again {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 480px) {
             .container {
                 padding: 1rem;
             }
-            .pattern-container {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 10px;
+            
+            .title {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Pattern Background -->
-    <div class="pattern-container">
-        <!-- Generate multiple rows of text -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const container = document.querySelector('.pattern-container');
-                const phrases = ['Army Brat', 'Kumaoni'];
-                const numberOfItems = 100; // Adjust based on screen size
-                
-                for(let i = 0; i < numberOfItems; i++) {
-                    const div = document.createElement('div');
-                    div.className = 'pattern-text';
-                    div.textContent = phrases[i % phrases.length];
-                    container.appendChild(div);
-                }
-            });
-        </script>
-    </div>
-
     <div class="container">
-        <!-- Emoji Flowers in corners -->
-        <div class="emoji-flower top-left">🌸</div>
-        <div class="emoji-flower top-right">🌸</div>
-        <div class="emoji-flower bottom-left">🌸</div>
-        <div class="emoji-flower bottom-right">🌸</div>
+        <div class="header">
+            <h1 class="title">Number Guessing Game</h1>
+            <p class="subtitle">Try to guess the number between 1 and 100!</p>
+        </div>
 
-        <h1>History padhaa do mujhe Yogita</h1>
-        <p>Thanks for bringing Joy in my Boring Life</p>
+        <div class="game-info">
+            <div class="attempts">Attempts: <span id="attempts">0</span>/7</div>
+            <div class="input-group">
+                <input type="number" id="guess-input" placeholder="Enter your guess" min="1" max="100">
+                <button onclick="makeGuess()" id="guess-btn">Guess</button>
+            </div>
+            <div id="message"></div>
+        </div>
+
+        <div id="history" class="history">
+            <h3>Previous Guesses:</h3>
+            <div id="guess-history"></div>
+        </div>
     </div>
+
+    <script>
+        let targetNumber;
+        let attempts;
+        let gameOver;
+        const maxAttempts = 7;
+
+        function initGame() {
+            targetNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            gameOver = false;
+            document.getElementById('attempts').textContent = attempts;
+            document.getElementById('message').textContent = '';
+            document.getElementById('message').className = 'message';
+            document.getElementById('guess-history').innerHTML = '';
+            document.getElementById('guess-input').value = '';
+            document.getElementById('guess-btn').textContent = 'Guess';
+            document.getElementById('guess-input').disabled = false;
+            document.getElementById('guess-btn').disabled = false;
+        }
+
+        function getTemperatureHint(guess) {
+            const difference = Math.abs(targetNumber - guess);
+            if (difference > 40) return "❄️ Freezing cold!";
+            if (difference > 20) return "🌨️ Cold!";
+            if (difference > 10) return "🌤️ Warm!";
+            if (difference > 5) return "🔥 Hot!";
+            return "🌋 Burning hot!";
+        }
+
+        function addToHistory(guess, temperature) {
+            const historyDiv = document.getElementById('guess-history');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            historyItem.innerHTML = `
+                <span>Guess #${attempts}: ${guess}</span>
+                <span class="temperature-hint">${temperature}</span>
+            `;
+            historyDiv.insertBefore(historyItem, historyDiv.firstChild);
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+        }
+
+        function makeGuess() {
+            if (gameOver) {
+                initGame();
+                return;
+            }
+
+            const guessInput = document.getElementById('guess-input');
+            const guess = parseInt(guessInput.value);
+
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                showMessage('Please enter a valid number between 1 and 100', 'error');
+                return;
+            }
+
+            attempts++;
+            document.getElementById('attempts').textContent = attempts;
+
+            const temperature = getTemperatureHint(guess);
+            addToHistory(guess, temperature);
+
+            if (guess === targetNumber) {
+                gameOver = true;
+                showMessage(`🎉 Congratulations! You won in ${attempts} attempts!`, 'success');
+                endGame();
+            } else if (attempts >= maxAttempts) {
+                gameOver = true;
+                showMessage(`Game Over! The number was ${targetNumber} 😔`, 'error');
+                endGame();
+            } else {
+                const hint = guess < targetNumber ? 'higher' : 'lower';
+                showMessage(`Try a ${hint} number! ${temperature}`, 'hint');
+            }
+
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        function endGame() {
+            document.getElementById('guess-input').disabled = true;
+            document.getElementById('guess-btn').textContent = 'Play Again';
+        }
+
+        // Handle Enter key
+        document.getElementById('guess-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                makeGuess();
+            }
+        });
+
+        // Initialize game on load
+        initGame();
+    </script>
 </body>
 </html>
