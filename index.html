@@ -21,50 +21,89 @@
         }
 
         body {
-            background: #f0f2f5;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            color: #1F2937;
         }
 
         .container {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            max-width: 500px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 550px;
             width: 100%;
+            backdrop-filter: blur(10px);
         }
 
         .header {
             text-align: center;
             margin-bottom: 2rem;
+            animation: fadeIn 0.5s ease-out;
         }
 
         .title {
-            font-size: 1.875rem;
-            color: #1F2937;
-            font-weight: 700;
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #4F46E5, #7C3AED);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
             margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .subtitle {
             color: #4B5563;
-            font-size: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .how-to-play {
+            background: linear-gradient(135deg, #E9F1FF 0%, #F3E7FF 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 2px solid #E0E7FF;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .how-to-play h2 {
+            color: #4F46E5;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .temperature-guide {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .temp-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .game-info {
-            background: #F3F4F6;
-            padding: 1rem;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
             margin-bottom: 1.5rem;
+            border: 2px solid #E5E7EB;
         }
 
         .attempts {
             text-align: center;
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: #374151;
             margin-bottom: 1rem;
@@ -80,56 +119,61 @@
             flex: 1;
             padding: 0.75rem;
             border: 2px solid #E5E7EB;
-            border-radius: 6px;
+            border-radius: 12px;
             font-size: 1rem;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.3s;
+            background: white;
         }
 
         input:focus {
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
         }
 
         button {
-            background: var(--primary);
+            background: linear-gradient(to right, var(--primary), #6366F1);
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;
-            border-radius: 6px;
+            border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         button:hover {
-            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
         }
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        button:active {
+            transform: translateY(0);
         }
 
         .message {
             text-align: center;
             padding: 1rem;
-            border-radius: 6px;
+            border-radius: 12px;
             margin-bottom: 1rem;
             font-weight: 500;
+            animation: fadeIn 0.3s ease-out;
         }
 
         .message.success {
-            background: #ECFDF5;
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
             color: var(--success);
         }
 
         .message.error {
-            background: #FEF2F2;
+            background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
             color: var(--error);
         }
 
         .message.hint {
-            background: #FEF3C7;
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
             color: var(--warning);
         }
 
@@ -139,17 +183,19 @@
 
         .history h3 {
             color: #374151;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
         }
 
         .history-item {
             display: flex;
             justify-content: space-between;
             padding: 0.75rem;
-            background: #F9FAFB;
-            border-radius: 6px;
+            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+            border-radius: 12px;
             margin-bottom: 0.5rem;
+            animation: slideIn 0.3s ease-out;
         }
 
         .temperature-hint {
@@ -161,13 +207,33 @@
             margin-top: 1rem;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 1rem;
             }
             
             .title {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+            }
+
+            .temperature-guide {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -176,20 +242,47 @@
     <div class="container">
         <div class="header">
             <h1 class="title">Number Guessing Game</h1>
-            <p class="subtitle">Try to guess the number between 1 and 100!</p>
+            <p class="subtitle">Can you crack the code? 🎯</p>
+        </div>
+
+        <div class="how-to-play">
+            <h2>🎮 How to Play</h2>
+            <p>Guess a number between 1 and 100. You have 7 attempts to find the secret number!</p>
+            <div class="temperature-guide">
+                <div class="temp-item">
+                    <span>🌋 Burning Hot:</span>
+                    <span>Within 5 numbers</span>
+                </div>
+                <div class="temp-item">
+                    <span>🔥 Hot:</span>
+                    <span>Within 10 numbers</span>
+                </div>
+                <div class="temp-item">
+                    <span>🌤️ Warm:</span>
+                    <span>Within 20 numbers</span>
+                </div>
+                <div class="temp-item">
+                    <span>🌨️ Cold:</span>
+                    <span>Within 40 numbers</span>
+                </div>
+                <div class="temp-item">
+                    <span>❄️ Freezing:</span>
+                    <span>More than 40 away</span>
+                </div>
+            </div>
         </div>
 
         <div class="game-info">
             <div class="attempts">Attempts: <span id="attempts">0</span>/7</div>
             <div class="input-group">
-                <input type="number" id="guess-input" placeholder="Enter your guess" min="1" max="100">
-                <button onclick="makeGuess()" id="guess-btn">Guess</button>
+                <input type="number" id="guess-input" placeholder="Enter your guess (1-100)" min="1" max="100">
+                <button onclick="makeGuess()" id="guess-btn">Guess!</button>
             </div>
             <div id="message"></div>
         </div>
 
         <div id="history" class="history">
-            <h3>Previous Guesses:</h3>
+            <h3>📝 Previous Guesses:</h3>
             <div id="guess-history"></div>
         </div>
     </div>
@@ -209,7 +302,7 @@
             document.getElementById('message').className = 'message';
             document.getElementById('guess-history').innerHTML = '';
             document.getElementById('guess-input').value = '';
-            document.getElementById('guess-btn').textContent = 'Guess';
+            document.getElementById('guess-btn').textContent = 'Guess!';
             document.getElementById('guess-input').disabled = false;
             document.getElementById('guess-btn').disabled = false;
         }
@@ -282,14 +375,12 @@
             document.getElementById('guess-btn').textContent = 'Play Again';
         }
 
-        // Handle Enter key
         document.getElementById('guess-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 makeGuess();
             }
         });
 
-        // Initialize game on load
         initGame();
     </script>
 </body>
