@@ -1,387 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number Guessing Game</title>
-    <style>
-        :root {
-            --primary: #4F46E5;
-            --primary-hover: #4338CA;
-            --success: #059669;
-            --error: #DC2626;
-            --warning: #D97706;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: #1F2937;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            max-width: 550px;
-            width: 100%;
-            backdrop-filter: blur(10px);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .title {
-            font-size: 2.5rem;
-            background: linear-gradient(to right, #4F46E5, #7C3AED);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .subtitle {
-            color: #4B5563;
-            font-size: 1.1rem;
-        }
-
-        .how-to-play {
-            background: linear-gradient(135deg, #E9F1FF 0%, #F3E7FF 100%);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            border: 2px solid #E0E7FF;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .how-to-play h2 {
-            color: #4F46E5;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .temperature-guide {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .temp-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .game-info {
-            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            border: 2px solid #E5E7EB;
-        }
-
-        .attempts {
-            text-align: center;
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 1rem;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 2px solid #E5E7EB;
-            border-radius: 12px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-            background: white;
-        }
-
-        input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-        }
-
-        button {
-            background: linear-gradient(to right, var(--primary), #6366F1);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .message {
-            text-align: center;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            font-weight: 500;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .message.success {
-            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
-            color: var(--success);
-        }
-
-        .message.error {
-            background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
-            color: var(--error);
-        }
-
-        .message.hint {
-            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-            color: var(--warning);
-        }
-
-        .history {
-            margin-top: 1.5rem;
-        }
-
-        .history h3 {
-            color: #374151;
-            font-size: 1.1rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem;
-            background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
-            border-radius: 12px;
-            margin-bottom: 0.5rem;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .temperature-hint {
-            font-weight: 500;
-        }
-
-        .play-again {
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(10px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .title {
-                font-size: 1.8rem;
-            }
-
-            .temperature-guide {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Treat Me, Kirti? 💖</title>
+<style>
+    /* Basic reset and overflow setting */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body, html {
+        height: 100vh;
+        overflow: hidden; /* Prevent scrolling */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        background: radial-gradient(circle, #ff7eb9, #ff65a3, #7afcff);
+    }
+    /* Container styling */
+    .container {
+        text-align: center;
+        color: #fff;
+        max-width: 90%;
+    }
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1.2rem;
+    }
+    p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+    /* Button styling */
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        margin: 0.5rem;
+        cursor: pointer;
+        border-radius: 8px;
+        border: none;
+        transition: all 0.3s ease;
+    }
+    .yes-btn {
+        background-color: #ff7eb9;
+        color: #fff;
+    }
+    .yes-btn:hover {
+        background-color: #ff4081;
+    }
+    .no-btn {
+        background-color: #ff65a3;
+        color: #fff;
+        position: relative;
+    }
+</style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1 class="title">Number Guessing Game</h1>
-            <p class="subtitle">Can you crack the code? 🎯</p>
-        </div>
-
-        <div class="how-to-play">
-            <h2>🎮 How to Play</h2>
-            <p>Guess a number between 1 and 100. You have 7 attempts to find the secret number!</p>
-            <div class="temperature-guide">
-                <div class="temp-item">
-                    <span>🌋 Burning Hot:</span>
-                    <span>Within 5 numbers</span>
-                </div>
-                <div class="temp-item">
-                    <span>🔥 Hot:</span>
-                    <span>Within 10 numbers</span>
-                </div>
-                <div class="temp-item">
-                    <span>🌤️ Warm:</span>
-                    <span>Within 20 numbers</span>
-                </div>
-                <div class="temp-item">
-                    <span>🌨️ Cold:</span>
-                    <span>Within 40 numbers</span>
-                </div>
-                <div class="temp-item">
-                    <span>❄️ Freezing:</span>
-                    <span>More than 40 away</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="game-info">
-            <div class="attempts">Attempts: <span id="attempts">0</span>/7</div>
-            <div class="input-group">
-                <input type="number" id="guess-input" placeholder="Enter your guess (1-100)" min="1" max="100">
-                <button onclick="makeGuess()" id="guess-btn">Guess!</button>
-            </div>
-            <div id="message"></div>
-        </div>
-
-        <div id="history" class="history">
-            <h3>📝 Previous Guesses:</h3>
-            <div id="guess-history"></div>
-        </div>
+        <h1>Hey Kirti, Will You Treat Me? 💖</h1>
+        <p>I'm really craving something special, only you can make it happen! 😄</p>
+        <button class="btn yes-btn" onclick="sayYes()">Yes</button>
+        <button class="btn no-btn" onmouseover="moveNoButton(this)">No</button>
+        <p id="response" style="margin-top: 1.5rem; font-size: 1.5rem;"></p>
     </div>
 
-    <script>
-        let targetNumber;
-        let attempts;
-        let gameOver;
-        const maxAttempts = 7;
+<script>
+    function sayYes() {
+        document.getElementById("response").innerText = "Yay! You're the best, Kirti! 🌟🍰";
+    }
 
-        function initGame() {
-            targetNumber = Math.floor(Math.random() * 100) + 1;
-            attempts = 0;
-            gameOver = false;
-            document.getElementById('attempts').textContent = attempts;
-            document.getElementById('message').textContent = '';
-            document.getElementById('message').className = 'message';
-            document.getElementById('guess-history').innerHTML = '';
-            document.getElementById('guess-input').value = '';
-            document.getElementById('guess-btn').textContent = 'Guess!';
-            document.getElementById('guess-input').disabled = false;
-            document.getElementById('guess-btn').disabled = false;
-        }
-
-        function getTemperatureHint(guess) {
-            const difference = Math.abs(targetNumber - guess);
-            if (difference > 40) return "❄️ Freezing cold!";
-            if (difference > 20) return "🌨️ Cold!";
-            if (difference > 10) return "🌤️ Warm!";
-            if (difference > 5) return "🔥 Hot!";
-            return "🌋 Burning hot!";
-        }
-
-        function addToHistory(guess, temperature) {
-            const historyDiv = document.getElementById('guess-history');
-            const historyItem = document.createElement('div');
-            historyItem.className = 'history-item';
-            historyItem.innerHTML = `
-                <span>Guess #${attempts}: ${guess}</span>
-                <span class="temperature-hint">${temperature}</span>
-            `;
-            historyDiv.insertBefore(historyItem, historyDiv.firstChild);
-        }
-
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type}`;
-        }
-
-        function makeGuess() {
-            if (gameOver) {
-                initGame();
-                return;
-            }
-
-            const guessInput = document.getElementById('guess-input');
-            const guess = parseInt(guessInput.value);
-
-            if (isNaN(guess) || guess < 1 || guess > 100) {
-                showMessage('Please enter a valid number between 1 and 100', 'error');
-                return;
-            }
-
-            attempts++;
-            document.getElementById('attempts').textContent = attempts;
-
-            const temperature = getTemperatureHint(guess);
-            addToHistory(guess, temperature);
-
-            if (guess === targetNumber) {
-                gameOver = true;
-                showMessage(`🎉 Congratulations! You won in ${attempts} attempts!`, 'success');
-                endGame();
-            } else if (attempts >= maxAttempts) {
-                gameOver = true;
-                showMessage(`Game Over! The number was ${targetNumber} 😔`, 'error');
-                endGame();
-            } else {
-                const hint = guess < targetNumber ? 'higher' : 'lower';
-                showMessage(`Try a ${hint} number! ${temperature}`, 'hint');
-            }
-
-            guessInput.value = '';
-            guessInput.focus();
-        }
-
-        function endGame() {
-            document.getElementById('guess-input').disabled = true;
-            document.getElementById('guess-btn').textContent = 'Play Again';
-        }
-
-        document.getElementById('guess-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                makeGuess();
-            }
-        });
-
-        initGame();
-    </script>
+    function moveNoButton(button) {
+        // Generate random positions within the viewport
+        const randomX = Math.random() * (window.innerWidth - button.offsetWidth);
+        const randomY = Math.random() * (window.innerHeight - button.offsetHeight);
+        button.style.position = 'absolute';
+        button.style.left = `${randomX}px`;
+        button.style.top = `${randomY}px`;
+    }
+</script>
 </body>
 </html>
+
