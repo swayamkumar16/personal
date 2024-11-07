@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Give Me Treat Kirti? 💖</title>
+<title>Will You Give Me Treat, Kirti? 💖</title>
 <style>
     /* Basic reset and overflow setting */
     * {
@@ -19,12 +19,26 @@
         align-items: center;
         font-family: Arial, sans-serif;
         background: radial-gradient(circle, #ff7eb9, #ff65a3, #7afcff);
+        animation: backgroundAnimation 10s infinite alternate ease-in-out;
+    }
+    /* Background animation keyframes */
+    @keyframes backgroundAnimation {
+        0% { background: radial-gradient(circle, #ff7eb9, #ff65a3, #7afcff); }
+        50% { background: radial-gradient(circle, #ff99ac, #ff6f91, #7afcff); }
+        100% { background: radial-gradient(circle, #ff7eb9, #ff65a3, #ff9cfc); }
     }
     /* Container styling */
     .container {
         text-align: center;
         color: #fff;
         max-width: 90%;
+        padding: 1rem;
+        animation: fadeIn 2s ease-out;
+    }
+    /* Fade-in animation for container */
+    @keyframes fadeIn {
+        0% { opacity: 0; transform: scale(0.9); }
+        100% { opacity: 1; transform: scale(1); }
     }
     h1 {
         font-size: 2.5rem;
@@ -55,6 +69,28 @@
         background-color: #ff65a3;
         color: #fff;
         position: relative;
+        animation: shake 1s infinite alternate;
+    }
+    /* No button shake effect */
+    @keyframes shake {
+        0% { transform: translate(0px, 0px); }
+        25% { transform: translate(3px, 3px); }
+        50% { transform: translate(-3px, -3px); }
+        75% { transform: translate(3px, -3px); }
+        100% { transform: translate(-3px, 3px); }
+    }
+    /* Media query for small screens */
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 2rem;
+        }
+        p {
+            font-size: 1rem;
+        }
+        .btn {
+            padding: 0.6rem 1rem;
+            font-size: 1rem;
+        }
     }
 </style>
 </head>
@@ -83,4 +119,3 @@
 </script>
 </body>
 </html>
-
